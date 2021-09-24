@@ -1,17 +1,54 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import { parseJwt, userAuthenticated } from "./services/auth";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import "./index.css";
+
+import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
+import { Products } from "./pages/Products";
+
+const CustomRoute = ({ component: Component }) => {
+  const { exp } = parseJwt();
+
+  if (exp * 1000 < Date.now()) {
+    localStorage.removeItem("token");
+    console.log("Token inválido");
+    return;
+  }
+
+  console.log("Token válido");
+
+  return (
+    <Route
+      render={(props) =>
+        userAuthenticated() && parseJwt().role === "1" ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="login" />
+        )
+      }
+    />
+  );
+};
+
+const routing = (
+  <Router>
+    <div style={{ display: "flex", margin: "auto" }}>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <CustomRoute path="/home" component={Home} />
+        <CustomRoute path="/products" component={Products} />
+        <Redirect to="/" />
+      </Switch>
+    </div>
+  </Router>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(routing, document.getElementById("root"));
