@@ -40,7 +40,7 @@ const CustomRoute = ({ component: Component }) => {
 
 const routing = (
   <Router>
-    <div style={{ display: "flex", margin: "auto" }}>
+    <div style={{ display: "flex", flex: "1" }}>
       <Switch>
         <Route exact path="/" component={Login} />
         <CustomRoute path="/home" component={Home} />

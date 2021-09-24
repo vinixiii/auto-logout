@@ -35,6 +35,7 @@ export function Login() {
         alignItems: "center",
         flexDirection: "column",
         gap: "48px",
+        margin: "auto",
       }}
     >
       <h1 style={{ fontSize: 48 }}>Login</h1>
