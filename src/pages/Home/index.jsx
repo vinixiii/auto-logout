@@ -1,17 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Nav } from "../../components/Nav";
+import { Menu } from "../../components/Menu";
 
 export function Home() {
   return (
-    <div>
-      <div style={{ display: "flex", gap: "24px" }}>
-        <Nav to="/products">Navegar</Nav>
-        <Link to="/" onClick={() => localStorage.removeItem("token")}>
-          Sair
-        </Link>
+    <div style={{ flex: 1 }}>
+      <Menu />
+      <div style={{ padding: 30 }}>
+        <h1>Home</h1>
       </div>
-      <h1>Home</h1>
     </div>
   );
 }

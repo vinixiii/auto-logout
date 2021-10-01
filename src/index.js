@@ -6,7 +6,9 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { parseJwt, userAuthenticated } from "./services/auth";
+import jwt from "jsonwebtoken";
+
+import { userAuthenticated } from "./services/auth";
 
 import "./index.css";
 
@@ -15,24 +17,18 @@ import { Home } from "./pages/Home";
 import { Products } from "./pages/Products";
 
 const CustomRoute = ({ component: Component }) => {
-  const { exp } = parseJwt();
+  const token = localStorage.getItem("token");
+  const userInfo = jwt.decode(token);
 
-  if (exp * 1000 < Date.now()) {
+  if (userInfo.exp * 1000 < Date.now()) {
     localStorage.removeItem("token");
-    console.log("Token inválido");
-    return;
+    console.log("Invalid token!");
   }
-
-  console.log("Token válido");
 
   return (
     <Route
       render={(props) =>
-        userAuthenticated() && parseJwt().role === "1" ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="login" />
-        )
+        userAuthenticated() ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );
@@ -40,7 +36,7 @@ const CustomRoute = ({ component: Component }) => {
 
 const routing = (
   <Router>
-    <div style={{ display: "flex", flex: "1" }}>
+    <div style={{ display: "flex", flex: 1 }}>
       <Switch>
         <Route exact path="/" component={Login} />
         <CustomRoute path="/home" component={Home} />

@@ -1,0 +1,21 @@
+header {
+  width: 100%;
+  background: #f6876f;
+  color: #333;
+  display: flex;
+}
+
+.header__container {
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.header__container a {
+  color: #333;
+  text-decoration: none;
+  margin: 30px 0;
+}

@@ -3,13 +3,12 @@ import { useHistory } from "react-router-dom";
 
 export function Login() {
   const history = useHistory();
-  const [email, setEmail] = React.useState("");
-  const [senha, setSenha] = React.useState("");
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
 
   async function handleSignIn(e) {
     e.preventDefault();
-
-    const res = await fetch("http://localhost:5000/api/login", {
+    await fetch("http://localhost:5000/api/login", {
       method: "POST",
       body: JSON.stringify({
         email: "adm@adm.com",
@@ -51,8 +50,9 @@ export function Login() {
       >
         <input
           type="text"
-          value="adm@adm.com"
-          onChange={(e) => setEmail(e.target.value)}
+          defaultValue="adm@adm.com"
+          // value={email}
+          // onChange={(e) => setEmail(e.target.value)}
           style={{
             width: "100%",
             padding: "12px",
@@ -62,8 +62,9 @@ export function Login() {
         />
         <input
           type="text"
-          value="adm123"
-          onChange={(e) => setSenha(e.target.value)}
+          defaultValue="adm123"
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
           style={{
             width: "100%",
             padding: "12px",
